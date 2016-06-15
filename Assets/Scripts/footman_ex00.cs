@@ -26,6 +26,7 @@ public class footman_ex00 : MonoBehaviour {
 	void Update () {
 		Vector3 pos;
 		if (Input.GetMouseButtonDown (0)) {
+			GetComponent<unit_sounds>().Play("Acknowledge");
 			pos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			pos.z = footman_z;
 			target = pos;
@@ -44,7 +45,7 @@ public class footman_ex00 : MonoBehaviour {
 			pos = this.transform.position;
 			float old_distance = (this.transform.position - target).magnitude;
 			Vector3 displacement = direction_vector * speed * Time.deltaTime;
-			Debug.Log ("Distance: "+old_distance+" Displacement: "+displacement.magnitude);
+//			Debug.Log ("Distance: "+old_distance+" Displacement: "+displacement.magnitude);
 			if (old_distance > displacement.magnitude) {
 				this.transform.position += displacement;
 			}
