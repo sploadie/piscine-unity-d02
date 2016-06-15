@@ -6,8 +6,8 @@ public class manager_ex01 : MonoBehaviour {
 
 	public static manager_ex01 instance { get; private set; }
 
-	public List<footman_ex01> footmen_all { get; private set; }
-	public List<footman_ex01> footmen_selected { get; private set; }
+	public List<footman_ex01> footmen_all;
+	public List<footman_ex01> footmen_selected;
 	
 	void Awake() {
 		instance = this;
@@ -23,18 +23,22 @@ public class manager_ex01 : MonoBehaviour {
 	void Update () {
 		Vector3 pos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		if (Input.GetMouseButtonDown (0)) {
+			bool footman_clicked = false;
 			foreach (footman_ex01 footman in footmen_all) {
-				if (footman.collider2D == Physics2D.OverlapPoint(pos)) {
+				if (footman.GetComponent<Collider2D>() == Physics2D.OverlapPoint(pos)) {
 					// If footman touched
-					if (!Input.GetKey("control"))
+					if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
 						footmen_selected.Clear();
 					footmen_selected.Add(footman);
+					footman_clicked = true;
 					break;
 				}
 			}
-			// If no footman touched
-			foreach (footman_ex01 footman in footmen_selected) {
-				footman.newTarget(pos);
+			if (!footman_clicked) {
+				// If no footman touched
+				foreach (footman_ex01 footman in footmen_selected) {
+					footman.newTarget(pos);
+				}
 			}
 		} else if (Input.GetMouseButtonDown (1)) {
 			footmen_selected.Clear();
@@ -42,6 +46,6 @@ public class manager_ex01 : MonoBehaviour {
 	}
 
 	public void Add(footman_ex01 footman) {
-		footmen.Add(footman);
+		footmen_all.Add(footman);
 	}
 }
