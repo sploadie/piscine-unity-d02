@@ -27,6 +27,7 @@ public class footman_ex00 : MonoBehaviour {
 		Vector3 pos;
 		if (Input.GetMouseButtonDown (0)) {
 			GetComponent<unit_sounds>().Play("Acknowledge");
+			animator.SetTrigger ("Walk");
 			pos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			pos.z = footman_z;
 			target = pos;
