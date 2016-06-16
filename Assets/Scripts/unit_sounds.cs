@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class unit_sounds : MonoBehaviour {
 
 	public AudioClip[] clipsAcknowledge;
+	public AudioClip[] clipsSelected;
 
 	private Dictionary<string, AudioSource[]> sounds;
 
@@ -33,6 +34,7 @@ public class unit_sounds : MonoBehaviour {
 	void Start () {
 		sounds = new Dictionary<string, AudioSource[]> ();
 		AddClips ("Acknowledge", ref clipsAcknowledge);
+		AddClips ("Selected", ref clipsSelected);
 	}
 
 	public void Play(string name) {

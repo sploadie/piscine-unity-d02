@@ -48,8 +48,10 @@
      <Compile Include="Assets\Scripts\footman_ex00.cs" />
      <Compile Include="Assets\Scripts\footman_ex01.cs" />
      <Compile Include="Assets\Scripts\manager_ex01.cs" />
+     <Compile Include="Assets\Scripts\orc_ex02.cs" />
      <Compile Include="Assets\Scripts\speed_test.cs" />
      <Compile Include="Assets\Scripts\unit_sounds.cs" />
+     <Compile Include="Assets\Scripts\unit_spawner.cs" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>

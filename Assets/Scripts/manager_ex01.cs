@@ -30,6 +30,7 @@ public class manager_ex01 : MonoBehaviour {
 					if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))
 						footmen_selected.Clear();
 					footmen_selected.Add(footman);
+					footman.GetComponent<unit_sounds>().Play("Selected");
 					footman_clicked = true;
 					break;
 				}
