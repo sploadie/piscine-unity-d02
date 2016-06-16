@@ -44,7 +44,7 @@ public class unit_sounds : MonoBehaviour {
 		try {
 			AudioSource[] array = sounds[name];
 			if (array != null && array.Length > 0) {
-				Debug.Log ("Playing sound \""+name+"\"");
+//				Debug.Log ("Playing sound \""+name+"\"");
 				int i = Random.Range(0, array.Length);
 				array[i].Play();
 				length = (int)array[i].clip.length;

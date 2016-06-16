@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\footman_ex00.cs" />
      <Compile Include="Assets\Scripts\footman_ex01.cs" />
      <Compile Include="Assets\Scripts\manager_ex01.cs" />
+     <Compile Include="Assets\Scripts\manager_orcs.cs" />
      <Compile Include="Assets\Scripts\orc_ex02.cs" />
      <Compile Include="Assets\Scripts\speed_test.cs" />
      <Compile Include="Assets\Scripts\unit_sounds.cs" />

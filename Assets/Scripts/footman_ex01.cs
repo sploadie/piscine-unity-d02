@@ -4,9 +4,11 @@ using System.Collections;
 public class footman_ex01 : MonoBehaviour {
 
 	public bool footman = false;
+	public bool orc = false;
 	public bool dead;
 	
 	public float speed = 3.0f;
+	public float attack_distance = 0.1f;
 	public float max_distance = 0.0f;
 	public entity_ex03 target_entity;
 	
@@ -29,8 +31,12 @@ public class footman_ex01 : MonoBehaviour {
 		targeting_entity = false;
 		animator.SetFloat ("Direction", -1);
 		// Add to manager
-		if (footman)
+		if (footman) {
 			manager_ex01.instance.Add (this);
+			manager_orcs.instance.AddToHitList (this);
+		}
+		if (orc)
+			manager_orcs.instance.Add (this);
 	}
 
 	// Update is called once per frame
@@ -48,9 +54,6 @@ public class footman_ex01 : MonoBehaviour {
 			targeting = true;
 		}
 		if (target_entity) {
-//			animator.Play("Walking", 0, 0);
-			animator.SetTrigger ("Walk");
-			animator.speed = 1;
 			targeting = true;
 			targeting_entity = true;
 			target = target_entity.transform.position;
@@ -59,8 +62,6 @@ public class footman_ex01 : MonoBehaviour {
 		if (targeting_entity && target_entity == null) {
 			targeting_entity = false;
 			targeting = false;
-			animator.speed = 0;
-			animator.Play("Walking", 0, 0);
 		}
 		if (targeting) {
 			Vector3 direction_vector = (target - this.transform.position).normalized;
@@ -82,11 +83,28 @@ public class footman_ex01 : MonoBehaviour {
 			}
 			if (old_distance <= displacement.magnitude + max_distance) {
 				targeting = false;
-				animator.speed = 0;
-				animator.Play("Walking", 0, 0);
 			}
 		}
-//		this.transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.y);
+		if (!targeting) {
+			animator.speed = 0;
+			animator.Play ("Walking", 0, 0);
+		} else {
+			animator.speed = 1;
+			if (target_entity) {
+				float calculated = attack_distance;
+				CircleCollider2D coll = GetComponent<CircleCollider2D>();
+				if (coll)
+					calculated += coll.radius;
+				coll = target_entity.GetComponent<CircleCollider2D>();
+				if (coll)
+					calculated += coll.radius;
+				if ((target_entity.transform.position - transform.position).magnitude < calculated) {
+					animator.SetTrigger ("Attack");
+					return;
+				}
+			}
+			animator.SetTrigger ("Walk");
+		}
 	}
 
 	public void newTarget(Vector3 point) {
