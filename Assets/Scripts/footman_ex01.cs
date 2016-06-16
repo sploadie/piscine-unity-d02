@@ -4,7 +4,8 @@ using System.Collections;
 public class footman_ex01 : MonoBehaviour {
 
 	public bool footman = false;
-
+	public bool dead;
+	
 	public float speed = 3.0f;
 	public float max_distance = 0.0f;
 	public entity_ex03 target_entity;
@@ -19,6 +20,7 @@ public class footman_ex01 : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		dead = false;
 		animator = GetComponent<Animator>();
 		footman_z = this.transform.position.z;
 		new_target = false;
@@ -33,17 +35,22 @@ public class footman_ex01 : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (dead)
+			return;
 		if (new_target) {
 			new_target = false;
 			target_entity = null;
 			targeting_entity = false;
 			GetComponent<unit_sounds>().Play("Acknowledge");
+			animator.Play("Walking", 0, 0);
 			animator.SetTrigger ("Walk");
-			targeting = true;
 			animator.speed = 1;
+			targeting = true;
 		}
 		if (target_entity) {
+//			animator.Play("Walking", 0, 0);
 			animator.SetTrigger ("Walk");
+			animator.speed = 1;
 			targeting = true;
 			targeting_entity = true;
 			target = target_entity.transform.position;
@@ -53,7 +60,7 @@ public class footman_ex01 : MonoBehaviour {
 			targeting_entity = false;
 			targeting = false;
 			animator.speed = 0;
-			animator.Play("Walking",0, 0);
+			animator.Play("Walking", 0, 0);
 		}
 		if (targeting) {
 			Vector3 direction_vector = (target - this.transform.position).normalized;
@@ -76,7 +83,7 @@ public class footman_ex01 : MonoBehaviour {
 			if (old_distance <= displacement.magnitude + max_distance) {
 				targeting = false;
 				animator.speed = 0;
-				animator.Play("Walking",0, 0);
+				animator.Play("Walking", 0, 0);
 			}
 		}
 //		this.transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.y);

@@ -14,6 +14,7 @@ public class entity_ex03 : MonoBehaviour {
 	private int max_hp;
 	private bool game_over;
 	private float attack_timer;
+	private bool dead = false;
 
 	// Use this for initialization
 	void Start () {
@@ -33,9 +34,31 @@ public class entity_ex03 : MonoBehaviour {
 			game_over = true;
 			Debug.Log ("The Human Team wins.");
 		}
-		if (hit_points < 1) {
-			GameObject.Destroy(this.gameObject);
+		if (hit_points < 1 && dead == false) {
+			dead = true;
+			attack = 0;
+			footman_ex01 footman = GetComponent<footman_ex01>();
+			if (footman)
+				footman.dead = true;
+			Rigidbody2D body = GetComponent<Rigidbody2D>();
+			if (body)
+				Rigidbody2D.Destroy(body);
+			unit_sounds sounds = GetComponent<unit_sounds>();
+			if (sounds)
+				sounds.Play("Dead");
+			Animator animator = GetComponent<Animator>();
+			if (animator)
+				animator.SetTrigger ("Dead");
+			if (sounds || animator) {
+				Invoke("Kill", 2.5f);
+			} else {
+				Kill ();
+			}
 		}
+	}
+
+	void Kill () {
+		GameObject.Destroy(this.gameObject);
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {

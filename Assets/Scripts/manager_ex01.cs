@@ -38,6 +38,7 @@ public class manager_ex01 : MonoBehaviour {
 			}
 			if (!footman_clicked) {
 				// If no footman touched
+				footmen_selected.RemoveAll(isDead);
 				foreach (footman_ex01 footman in footmen_selected) {
 					footman.newTarget(pos);
 				}

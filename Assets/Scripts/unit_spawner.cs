@@ -4,6 +4,7 @@ using System.Collections;
 public class unit_spawner : MonoBehaviour {
 
 	public GameObject unit;
+	public entity_ex03 castle;
 	public float base_spawn_interval = 10.0f;
 
 	private float timer;
@@ -17,10 +18,16 @@ public class unit_spawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		timer += Time.deltaTime;
-		if (timer >= spawn_interval) {
-			timer = 0.0f;
-			GameObject.Instantiate(unit, transform.position, transform.rotation);
+		if (castle != null) {
+			timer += Time.deltaTime;
+			if (timer >= spawn_interval) {
+				timer = 0.0f;
+				GameObject.Instantiate (unit, transform.position, transform.rotation);
+			}
 		}
+	}
+
+	public void buildingDestroyed() {
+		spawn_interval += 2.5f;
 	}
 }

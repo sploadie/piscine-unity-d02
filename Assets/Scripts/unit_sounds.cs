@@ -6,6 +6,7 @@ public class unit_sounds : MonoBehaviour {
 
 	public AudioClip[] clipsAcknowledge;
 	public AudioClip[] clipsSelected;
+	public AudioClip[] clipsDead;
 
 	private Dictionary<string, AudioSource[]> sounds;
 
@@ -35,17 +36,23 @@ public class unit_sounds : MonoBehaviour {
 		sounds = new Dictionary<string, AudioSource[]> ();
 		AddClips ("Acknowledge", ref clipsAcknowledge);
 		AddClips ("Selected", ref clipsSelected);
+		AddClips ("Dead", ref clipsDead);
 	}
 
-	public void Play(string name) {
+	public int Play(string name) {
+		int length = 0;
 		try {
 			AudioSource[] array = sounds[name];
 			if (array != null && array.Length > 0) {
-				array[Random.Range(0, array.Length)].Play();
+				Debug.Log ("Playing sound \""+name+"\"");
+				int i = Random.Range(0, array.Length);
+				array[i].Play();
+				length = (int)array[i].clip.length;
 			}
 		} catch(KeyNotFoundException) {
 			Debug.Log ("Key not found in sounds: "+name);
 		}
+		return length;
 	}
 
 	// Update is called once per frame
