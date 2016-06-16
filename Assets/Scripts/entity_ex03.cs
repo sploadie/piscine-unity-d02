@@ -29,11 +29,21 @@ public class entity_ex03 : MonoBehaviour {
 		if (is_human_castle && !game_over && hit_points < 1) {
 			game_over = true;
 			Debug.Log ("The Orc Team wins.");
+			GetComponent<unit_sounds>().Play("Acknowledge");
+			CircleCollider2D.Destroy(GetComponent<CircleCollider2D>());
+			SpriteRenderer.Destroy(GetComponent<SpriteRenderer>());
+			Invoke ("Restart", 5);
 		}
 		if (is_orc_castle && !game_over && hit_points < 1) {
 			game_over = true;
 			Debug.Log ("The Human Team wins.");
+			GetComponent<unit_sounds>().Play("Acknowledge");
+			CircleCollider2D.Destroy(GetComponent<CircleCollider2D>());
+			SpriteRenderer.Destroy(GetComponent<SpriteRenderer>());
+			Invoke ("Restart", 5);
 		}
+		if ((is_human_castle || is_orc_castle) && game_over)
+			return;
 		if (hit_points < 1 && dead == false) {
 			dead = true;
 			attack = 0;
@@ -59,6 +69,11 @@ public class entity_ex03 : MonoBehaviour {
 
 	void Kill () {
 		GameObject.Destroy(this.gameObject);
+	}
+
+	void Restart () {
+		Debug.Log ("Restarting");
+		Application.LoadLevel(Application.loadedLevel);
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {

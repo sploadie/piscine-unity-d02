@@ -81,7 +81,7 @@ public class footman_ex01 : MonoBehaviour {
 			if (old_distance <= displacement.magnitude) {
 				this.transform.position = target - (direction_vector * (max_distance / 2));
 			}
-			if (old_distance <= displacement.magnitude + max_distance) {
+			if ((old_distance <= displacement.magnitude + max_distance) && target_entity == null) {
 				targeting = false;
 			}
 		}
@@ -98,8 +98,11 @@ public class footman_ex01 : MonoBehaviour {
 				coll = target_entity.GetComponent<CircleCollider2D>();
 				if (coll)
 					calculated += coll.radius;
-				if ((target_entity.transform.position - transform.position).magnitude < calculated) {
+				Vector3 target_entity_position = new Vector3 (target_entity.transform.position.x, target_entity.transform.position.y, transform.position.z);
+//				Debug.Log ((target_entity_position - transform.position).magnitude + " < " + calculated);
+				if ((target_entity_position - transform.position).magnitude < calculated) {
 					animator.SetTrigger ("Attack");
+					GetComponent<unit_sounds>().Attack ();
 					return;
 				}
 			}

@@ -7,8 +7,11 @@ public class unit_sounds : MonoBehaviour {
 	public AudioClip[] clipsAcknowledge;
 	public AudioClip[] clipsSelected;
 	public AudioClip[] clipsDead;
+	public AudioClip[] clipsAttack;
+	public float attack_interval = 2.0f;
 
 	private Dictionary<string, AudioSource[]> sounds;
+	private float attack_timer;
 
 	public AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol) { 
 		AudioSource newAudio = gameObject.AddComponent<AudioSource>();
@@ -34,9 +37,11 @@ public class unit_sounds : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		sounds = new Dictionary<string, AudioSource[]> ();
+		attack_timer = 0.0f;
 		AddClips ("Acknowledge", ref clipsAcknowledge);
 		AddClips ("Selected", ref clipsSelected);
 		AddClips ("Dead", ref clipsDead);
+		AddClips ("Attack", ref clipsAttack);
 	}
 
 	public int Play(string name) {
@@ -55,8 +60,16 @@ public class unit_sounds : MonoBehaviour {
 		return length;
 	}
 
+	public int Attack() {
+		if (attack_timer >= attack_interval) {
+			attack_timer = 0.0f;
+			return Play ("Attack");
+		}
+		return 0;
+	}
+
 	// Update is called once per frame
 	void Update () {
-	
+		attack_timer += Time.deltaTime;
 	}
 }
