@@ -33,6 +33,9 @@ public class entity_ex03 : MonoBehaviour {
 			game_over = true;
 			Debug.Log ("The Human Team wins.");
 		}
+		if (hit_points < 1) {
+			GameObject.Destroy(this.gameObject);
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {

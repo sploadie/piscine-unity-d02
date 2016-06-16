@@ -24,6 +24,7 @@ public class manager_ex01 : MonoBehaviour {
 		Vector3 pos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 		if (Input.GetMouseButtonDown (0)) {
 			bool footman_clicked = false;
+			footmen_all.RemoveAll(isDead);
 			foreach (footman_ex01 footman in footmen_all) {
 				if (footman.GetComponent<Collider2D>() == Physics2D.OverlapPoint(pos)) {
 					// If footman touched
@@ -48,5 +49,9 @@ public class manager_ex01 : MonoBehaviour {
 
 	public void Add(footman_ex01 footman) {
 		footmen_all.Add(footman);
+	}
+
+	public bool isDead(footman_ex01 footman) {
+		return (footman == null);
 	}
 }

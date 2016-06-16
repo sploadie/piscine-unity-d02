@@ -12,6 +12,7 @@ public class orc_ex02 : MonoBehaviour {
 	
 	private bool new_target;
 	private bool targeting;
+	private bool targeting_entity;
 	private Vector3 target;
 	
 	// Use this for initialization
@@ -21,6 +22,7 @@ public class orc_ex02 : MonoBehaviour {
 		new_target = false;
 		targeting = false;
 		target_entity = null;
+		targeting_entity = false;
 		animator.SetFloat ("Direction", -1);
 		// Add to manager
 		// orc_manager_ex03.instance.Add (this);
@@ -31,25 +33,32 @@ public class orc_ex02 : MonoBehaviour {
 		if (new_target) {
 			new_target = false;
 			target_entity = null;
+			targeting_entity = false;
 			GetComponent<unit_sounds>().Play("Acknowledge");
 			animator.SetTrigger ("Walk");
-			if (target.x < this.transform.position.x) {
-				this.transform.localScale = new Vector3 (-1, 1, 1);
-			} else {
-				this.transform.localScale = new Vector3 (1, 1, 1);
-			}
 			targeting = true;
 			animator.speed = 1;
 		}
 		if (target_entity) {
+			animator.SetTrigger ("Walk");
 			targeting = true;
+			targeting_entity = true;
 			target = target_entity.transform.position;
 			target.z = orc_z;
+		}
+		if (targeting_entity && target_entity == null) {
+			targeting_entity = false;
+			targeting = false;
 		}
 		if (targeting) {
 			Vector3 direction_vector = (target - this.transform.position).normalized;
 			float direction = Vector3.Dot (Vector3.up, direction_vector);
 			animator.SetFloat ("Direction", direction);
+			if (target.x < this.transform.position.x) {
+				this.transform.localScale = new Vector3 (-1, 1, 1);
+			} else {
+				this.transform.localScale = new Vector3 (1, 1, 1);
+			}
 			float old_distance = (this.transform.position - target).magnitude;
 			Vector3 displacement = direction_vector * speed * Time.deltaTime;
 			//			Debug.Log ("Distance: "+old_distance+" Displacement: "+displacement.magnitude);
