@@ -5,7 +5,8 @@ public class footman_ex01 : MonoBehaviour {
 
 	public float speed = 3.0f;
 	public float max_distance = 0.0f;
-
+	public entity_ex03 target_entity;
+	
 	private Animator animator;
 	private float footman_z;
 	
@@ -19,6 +20,7 @@ public class footman_ex01 : MonoBehaviour {
 		footman_z = this.transform.position.z;
 		new_target = false;
 		targeting = false;
+		target_entity = null;
 		animator.SetFloat ("Direction", -1);
 		// Add to manager
 		manager_ex01.instance.Add (this);
@@ -28,6 +30,7 @@ public class footman_ex01 : MonoBehaviour {
 	void Update () {
 		if (new_target) {
 			new_target = false;
+			target_entity = null;
 			GetComponent<unit_sounds>().Play("Acknowledge");
 			animator.SetTrigger ("Walk");
 			if (target.x < this.transform.position.x) {
@@ -37,6 +40,11 @@ public class footman_ex01 : MonoBehaviour {
 			}
 			targeting = true;
 			animator.speed = 1;
+		}
+		if (target_entity) {
+			targeting = true;
+			target = target_entity.transform.position;
+			target.z = footman_z;
 		}
 		if (targeting) {
 			Vector3 direction_vector = (target - this.transform.position).normalized;

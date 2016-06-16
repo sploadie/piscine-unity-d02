@@ -45,6 +45,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\entity_ex03.cs" />
      <Compile Include="Assets\Scripts\footman_ex00.cs" />
      <Compile Include="Assets\Scripts\footman_ex01.cs" />
      <Compile Include="Assets\Scripts\manager_ex01.cs" />
